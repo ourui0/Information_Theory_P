@@ -1,0 +1,32 @@
+Information theory was founded by Claude Shannon in 1948 with the publication
+of "A Mathematical Theory of Communication". Shannon showed that any source
+emitting symbols from a finite alphabet can be compressed, in the limit of
+long block lengths, down to its entropy H(X) measured in bits per symbol, but
+no further. For a memoryless source with probabilities p_i the entropy is
+
+        H(X) = - sum_i p_i log2 p_i.
+
+A lossless source code assigns a binary string, called a codeword, to every
+source symbol. If the code is uniquely decodable and instantaneous, the
+average codeword length L satisfies the Kraft inequality and the fundamental
+bound H(X) <= L, achieved in the limit by block coding. The Huffman
+construction produces an optimal prefix code for a known probability model,
+and guarantees H(X) <= L < H(X) + 1 for single-symbol coding.
+
+In practice text is highly redundant: letter frequencies follow a strongly
+skewed distribution (the letter 'e' alone accounts for roughly 12 percent of
+English text), and long-range correlations between letters mean the true
+entropy rate is close to one bit per character, far below the 8 bits per byte
+of a naive ASCII representation. Universal codes such as Lempel-Ziv discover
+those correlations automatically by building a dictionary of repeated
+substrings, while Huffman coding is perfectly matched to an i.i.d. model.
+Combining both ideas, as in DEFLATE, is how modern compressors such as gzip
+and zip obtain ratios well above two.
+
+The purpose of this project is to implement these ideas from scratch, measure
+the source entropy of the supplied text, build Huffman and Shannon-Fano
+codebooks, compare them against a dictionary-based coder, and verify the
+classical source-coding theorems numerically. The empirical average codeword
+length should lie in the interval predicted by Shannon, and decoding the
+compressed bitstream should recover the original text exactly, confirming
+that the encoding is truly lossless.
